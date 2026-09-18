@@ -13,7 +13,7 @@ android {
 
     defaultConfig {
         applicationId = "kang.mingu.remotecomposesample"
-        minSdk = 24
+        minSdk = 29
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"
@@ -38,6 +38,17 @@ android {
 }
 
 dependencies {
+    // The app only plays binary documents; creation stays in the web repository.
+    implementation(libs.androidx.remote.core)
+    implementation(libs.androidx.remote.player.core)
+    implementation(libs.androidx.remote.player.view)
+    implementation(libs.okhttp)
+    implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.androidx.lifecycle.runtime.compose)
+    implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.compose.material.icons.extended)
+
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.compose.material3)
@@ -47,6 +58,7 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     testImplementation(libs.junit)
+    testImplementation("com.squareup.okhttp3:mockwebserver:4.12.0")
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     androidTestImplementation(libs.androidx.espresso.core)

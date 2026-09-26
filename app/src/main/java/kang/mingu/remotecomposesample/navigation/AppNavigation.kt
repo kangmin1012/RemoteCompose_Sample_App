@@ -8,9 +8,7 @@ import kang.mingu.remotecomposesample.ui.screen.RemoteScreen
 
 enum class SampleScreen(val route: String, val title: String, val file: String) {
     Home("home", "Remote Compose", "config.rc"),
-    Detail("detail", "Detail", "config_detail.rc"),
-    Estimates("estimates", "Estimates", "config_estimates.rc"),
-    EstimateDetail("estimate_detail", "Estimate Detail", "config_estimate_detail.rc");
+    Detail("detail", "Detail", "config_detail.rc");
 
     // Raw GitHub avoids API authentication for this public sample repository.
     val url: String

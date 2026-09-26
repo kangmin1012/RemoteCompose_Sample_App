@@ -19,7 +19,7 @@ class RemoteDocumentTest {
 
     @Test fun rendersEverySampleBinary() {
         val assets = InstrumentationRegistry.getInstrumentation().context.assets
-        val files = listOf("config.rc", "config_detail.rc", "config_estimates.rc", "config_estimate_detail.rc")
+        val files = listOf("config.rc", "config_detail.rc")
         val document = mutableStateOf(assets.open(files.first()).use { it.readBytes() })
         compose.setContent {
             RemoteDocumentView(document.value, Modifier.fillMaxSize())

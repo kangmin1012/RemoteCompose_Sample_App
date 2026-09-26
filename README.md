@@ -18,13 +18,13 @@
 소스 패키지: `app/src/main/java/kang/mingu/remotecomposesample/`
 
 1. `MainActivity.kt`: Compose 테마와 탐색 화면 시작.
-2. `navigation/AppNavigation.kt`: Home, Detail, Estimates, Estimate Detail의 문서 주소와 화면 이동.
+2. `navigation/AppNavigation.kt`: Home, Detail의 문서 주소와 화면 이동.
 3. `MainViewModel.kt`: 로딩·성공·실패 상태 및 새로고침.
 4. `data/remote/RemoteConfigFetcher.kt`: 바이너리 다운로드, HTTP 오류 및 빈 응답 처리.
 5. `ui/screen/RemoteScreen.kt`: 로딩·재시도·문서 표시와 액션 분기.
 6. `ui/components/RemoteDocumentView.kt`: `AndroidView` 안에서 `RemoteComposePlayer` 사용.
 
-`navigate:<화면 ID>` 액션은 화면을 이동합니다. 나머지 호스트 액션은 ID와 메타데이터를 Toast로 보여줍니다. 화면 이름을 목록으로 관리해 동일한 화면 코드를 중복 작성하지 않습니다.
+`navigate:<화면 ID>` 액션은 화면을 이동합니다. 나머지 호스트 액션은 ID와 메타데이터를 Toast로 보여줍니다. 기본 화면 이동 예제는 Home → Detail 하나이며, 돌아가기는 앱 상단 뒤로가기 또는 시스템 뒤로가기를 사용합니다.
 
 ## 검증
 
@@ -34,7 +34,7 @@
 ./gradlew :app:connectedDebugAndroidTest # 실행 중인 기기 필요
 ```
 
-단위 테스트는 바이너리 보존, HTTP 오류, 빈 응답을 확인합니다. 기기 테스트는 웹 변환기로 생성한 네 문서가 실제로 렌더링되는지 검사합니다. 테스트용 `.rc`는 `app/src/androidTest/assets/`에 있습니다.
+단위 테스트는 바이너리 보존, HTTP 오류, 빈 응답을 확인합니다. 기기 테스트는 웹 변환기로 생성한 두 문서가 실제로 렌더링되는지 검사합니다. 테스트용 `.rc`는 `app/src/androidTest/assets/`에 있습니다.
 
 ## 참고 코드 및 범위
 

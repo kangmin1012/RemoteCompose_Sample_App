@@ -37,7 +37,7 @@ fun RemoteScreen(
 
     val timeFormat = remember { SimpleDateFormat("HH:mm:ss", Locale.getDefault()) }
     val subtitle = if (state.lastUpdated > 0) {
-        "Last updated: ${timeFormat.format(Date(state.lastUpdated))}"
+        "최근 업데이트: ${timeFormat.format(Date(state.lastUpdated))}"
     } else null
 
     Scaffold(
@@ -82,7 +82,7 @@ fun RemoteScreen(
                             if (metadata?.startsWith("navigate:") == true) {
                                 onNavigate(metadata.removePrefix("navigate:"))
                             } else {
-                                val msg = "Action (ID: $id, Data: $metadata)"
+                                val msg = "액션 (ID: $id, 데이터: $metadata)"
                                 Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
                             }
                         }

@@ -50,7 +50,7 @@ class MainViewModel : ViewModel() {
             } catch (error: Exception) {
                 state.update {
                     it.copy(isLoading = false, documentBytes = null,
-                        errorMessage = error.message ?: "Failed to load layout")
+                        errorMessage = error.message ?: "화면을 불러오지 못했습니다")
                 }
             }
         }

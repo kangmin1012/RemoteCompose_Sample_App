@@ -7,8 +7,8 @@ import androidx.navigation.compose.rememberNavController
 import kang.mingu.remotecomposesample.ui.screen.RemoteScreen
 
 enum class SampleScreen(val route: String, val title: String, val file: String) {
-    Home("home", "Remote Compose", "config.rc"),
-    Detail("detail", "Detail", "config_detail.rc");
+    Home("home", "리모트 컴포즈", "config.rc"),
+    Detail("detail", "상세 화면", "config_detail.rc");
 
     // Raw GitHub avoids API authentication for this public sample repository.
     val url: String

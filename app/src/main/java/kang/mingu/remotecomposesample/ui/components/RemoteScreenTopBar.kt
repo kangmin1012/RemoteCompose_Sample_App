@@ -41,7 +41,7 @@ fun RemoteScreenTopBar(
         navigationIcon = {
             if (showBack) {
                 IconButton(onClick = onBack) {
-                    Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                    Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "뒤로가기")
                 }
             }
         },
@@ -65,7 +65,7 @@ fun RemoteScreenTopBar(
                             color = MaterialTheme.colorScheme.onPrimaryContainer
                         )
                     } else {
-                        Icon(Icons.Default.Refresh, contentDescription = "Refresh")
+                        Icon(Icons.Default.Refresh, contentDescription = "새로고침")
                     }
                 }
             }

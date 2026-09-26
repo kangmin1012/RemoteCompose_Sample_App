@@ -17,7 +17,7 @@ fun ErrorContent(
         modifier = Modifier.padding(32.dp)
     ) {
         Text(
-            "Failed to load layout",
+            "화면을 불러오지 못했습니다",
             style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.error
         )
@@ -29,7 +29,7 @@ fun ErrorContent(
         )
         Spacer(Modifier.height(16.dp))
         OutlinedButton(onClick = onRetry) {
-            Text("Retry")
+            Text("다시 시도")
         }
     }
 }

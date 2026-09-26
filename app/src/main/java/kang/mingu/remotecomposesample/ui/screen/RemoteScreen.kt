@@ -8,6 +8,8 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import kang.mingu.remotecomposesample.MainViewModel
@@ -88,6 +90,15 @@ fun RemoteScreen(
                         }
                     )
                 }
+            }
+
+            if (state.isLoading && documentBytes != null) {
+                LinearProgressIndicator(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .align(Alignment.TopCenter)
+                        .semantics { contentDescription = "화면 새로고침 중" }
+                )
             }
         }
     }

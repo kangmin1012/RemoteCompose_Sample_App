@@ -44,6 +44,8 @@
 
 단위 테스트는 바이너리 보존, HTTP 오류, 빈 응답을 확인합니다. 기기 테스트는 웹 변환기로 생성한 두 문서가 실제로 렌더링되는지 검사합니다. 테스트용 `.rc`는 `app/src/androidTest/assets/`에 있습니다.
 
+카드 테두리 회귀 테스트는 둥근 카드와 각진 카드의 배경색 및 1dp·4dp 테두리 색상과 두께를 실제 픽셀에서 검사합니다. `card-border-*.rc`는 웹 저장소의 `server/src/test/fixtures/`에서 생성하며, 변환기의 현재 기록 단위인 2.625px/dp를 기준으로 검증합니다.
+
 ## 참고 코드 및 범위
 
 [armcha/remotecompose-android](https://github.com/armcha/remotecompose-android), 기준 커밋 `86382fa33837a14031a76610471c85205d127ff1`의 플레이어 구조를 참고했습니다. 샘플에서는 앱 내 토큰 설정을 없애고 상태 관리와 화면 등록을 간결하게 구성했습니다.

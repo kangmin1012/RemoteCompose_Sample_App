@@ -6,12 +6,20 @@
 
 ## 실행
 
-1. Android Studio에서 이 폴더를 엽니다. JDK 21과 프로젝트가 요구하는 Android SDK 36.1을 준비합니다.
+1. Android Studio의 **File → Open**에서 `settings.gradle.kts`와 `gradlew`가 들어 있는 이 폴더(`RemoteCompose/RemoteComposeSample`)를 엽니다. 상위 `RemoteCompose` 폴더나 `app` 폴더를 선택하지 않습니다. JDK 21과 프로젝트가 요구하는 Android SDK 36.1을 준비합니다.
 2. Android 10(API 29) 이상의 기기 또는 에뮬레이터에서 `app`을 실행합니다.
 3. Home 화면의 버튼으로 Detail 화면을 열거나, 상단 새로고침으로 최신 문서를 불러옵니다.
 4. 웹 Editor에서 수정하고 Deploy한 뒤 Actions 완료를 기다립니다. 앱을 새로고침하면 변경사항이 반영됩니다.
 
 공개 저장소를 사용하므로 앱에는 GitHub token이 필요하지 않습니다. 다운로드 주소는 `navigation/AppNavigation.kt`의 `SampleScreen.url` 한 곳에서 설정합니다.
+
+### Android Studio에서 Gradle 빌드를 찾지 못하는 경우
+
+`Directory '...' does not contain a Gradle build`가 나오면 오류에 표시된 경로에 `settings.gradle.kts`가 있는지 확인합니다. 프로젝트를 이동한 뒤 Recent Projects에서 이전 위치를 열면 `.idea`만 남은 폴더를 열 수 있습니다.
+
+현재 작업 공간에서는 `/Users/kangmingu/Desktop/RemoteCompose/RemoteComposeSample`을 열어야 합니다. 이전 경로인 `/Users/kangmingu/Desktop/RemoteComposeSample`과 구분하세요. 다른 환경에서는 저장소를 내려받은 실제 위치를 사용합니다.
+
+잘못 연 프로젝트를 닫고 **File → Open**으로 실제 폴더를 다시 연 다음 **Sync Project with Gradle Files**를 실행합니다. Gradle 배포판은 프로젝트의 `gradle/wrapper/gradle-wrapper.properties`를 사용합니다. 이 오류를 해결하려고 `gradle init`으로 새 프로젝트를 만들 필요는 없습니다.
 
 ## 코드 읽는 순서
 

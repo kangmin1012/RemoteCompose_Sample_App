@@ -8,7 +8,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.remote.player.view.RemoteComposePlayer
 
 @Composable
-// alpha05 exposes its View player as a restricted API; keep the opt-in at this boundary.
+// Remote Compose exposes its View player as a restricted API; keep the opt-in at this boundary.
 @SuppressLint("RestrictedApi")
 fun RemoteDocumentView(
     documentBytes: ByteArray,

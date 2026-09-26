@@ -40,4 +40,4 @@
 
 [armcha/remotecompose-android](https://github.com/armcha/remotecompose-android), 기준 커밋 `86382fa33837a14031a76610471c85205d127ff1`의 플레이어 구조를 참고했습니다. 샘플에서는 앱 내 토큰 설정을 없애고 상태 관리와 화면 등록을 간결하게 구성했습니다.
 
-앱과 웹 변환기는 `androidx.compose.remote:1.0.0-alpha05`로 버전을 맞춥니다. 이 버전의 View 플레이어는 실험적 제한 API이므로 `RemoteDocumentView`에만 Lint 사용 표시를 적용했습니다. 다른 버전으로 변경할 때는 변환기와 플레이어의 호환성을 함께 검증하세요.
+앱과 웹 변환기는 `androidx.compose.remote:1.0.0-alpha20`로 버전을 맞춥니다. 이 버전의 View 플레이어는 실험적 제한 API이므로 `RemoteDocumentView`에만 Lint 사용 표시를 적용했습니다. 다른 버전으로 변경할 때는 변환기와 플레이어의 호환성을 함께 검증하세요.

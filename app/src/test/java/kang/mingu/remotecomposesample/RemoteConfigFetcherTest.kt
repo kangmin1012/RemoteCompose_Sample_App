@@ -40,6 +40,30 @@ class RemoteConfigFetcherTest {
         assertDownloadFails("empty")
     }
 
+    @Test fun resolvesAndVerifiesEachPublishedRevision() = runBlocking {
+        val url = server.url("/site/config.manifest.json").toString()
+        for (bytes in listOf(byteArrayOf(1, 2), byteArrayOf(3, 4))) {
+            val hash = RemoteConfigFetcher.sha256(bytes)
+            server.enqueue(MockResponse().setBody("""{"schemaVersion":1,"sha256":"$hash","file":"documents/config.$hash.rc"}"""))
+            server.enqueue(MockResponse().setBody(Buffer().write(bytes)))
+            assertArrayEquals(bytes, RemoteConfigFetcher.fetchPublishedDocument(url))
+            assertEquals("/site/config.manifest.json", server.takeRequest().requestUrl!!.encodedPath)
+            assertEquals("/site/documents/config.$hash.rc", server.takeRequest().requestUrl!!.encodedPath)
+        }
+    }
+
+    @Test fun rejectsStaleBinaryRatherThanReportingSuccessfulRefresh() = runBlocking {
+        val hash = RemoteConfigFetcher.sha256(byteArrayOf(2))
+        server.enqueue(MockResponse().setBody("""{"schemaVersion":1,"sha256":"$hash","file":"documents/config.$hash.rc"}"""))
+        server.enqueue(MockResponse().setBody(Buffer().write(byteArrayOf(1))))
+        try {
+            RemoteConfigFetcher.fetchPublishedDocument(server.url("/config.manifest.json").toString())
+            fail("A stale document must never be applied")
+        } catch (error: IOException) {
+            assertTrue(error.message.orEmpty().contains("다릅니다"))
+        }
+    }
+
     @Test fun refreshBypassesUrlKeyedCdnCacheAndPreservesQueryParameters() = runBlocking {
         val cache = mutableMapOf<String, String>()
         var latest = "old document"

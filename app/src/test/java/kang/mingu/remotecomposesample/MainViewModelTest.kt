@@ -68,4 +68,15 @@ class MainViewModelTest {
         assertFalse(model.uiState.value.isLoading)
         assertEquals("offline", model.uiState.value.errorMessage)
     }
+
+    @Test fun returningToSameScreenFetchesTheLatestDocument() = runTest(dispatcher) {
+        var calls = 0
+        val model = MainViewModel(fetchDocument = { byteArrayOf((++calls).toByte()) })
+        model.setConfigUrl("https://example.test/config.manifest.json")
+        runCurrent()
+        model.setConfigUrl("https://example.test/config.manifest.json")
+        runCurrent()
+        assertEquals(2, calls)
+        assertArrayEquals(byteArrayOf(2), model.uiState.value.documentBytes)
+    }
 }

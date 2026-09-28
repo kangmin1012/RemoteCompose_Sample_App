@@ -11,6 +11,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.lifecycle.viewmodel.compose.viewModel
 import kang.mingu.remotecomposesample.MainViewModel
 import kang.mingu.remotecomposesample.ui.components.ErrorContent
@@ -33,13 +34,14 @@ fun RemoteScreen(
     val context = LocalContext.current
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 
-    LaunchedEffect(configUrl) {
+    LifecycleResumeEffect(configUrl) {
         viewModel.setConfigUrl(configUrl)
+        onPauseOrDispose { }
     }
 
     val timeFormat = remember { SimpleDateFormat("HH:mm:ss", Locale.getDefault()) }
     val subtitle = if (state.lastUpdated > 0) {
-        "최근 확인: ${timeFormat.format(Date(state.lastUpdated))}"
+        "최근 확인: ${timeFormat.format(Date(state.lastUpdated))} · 화면 ${state.documentHash.take(8)}"
     } else null
 
     Scaffold(

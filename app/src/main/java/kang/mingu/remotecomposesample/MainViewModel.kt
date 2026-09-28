@@ -16,11 +16,12 @@ data class MainUiState(
     val errorMessage: String? = null,
     val lastUpdated: Long = 0L,
     val documentRevision: Long = 0L,
+    val documentHash: String = "",
 )
 
 /** One ViewModel per navigation entry, with explicit loading, success and error states. */
 class MainViewModel(
-    private val fetchDocument: suspend (String) -> ByteArray = RemoteConfigFetcher::fetchDocument,
+    private val fetchDocument: suspend (String) -> ByteArray = RemoteConfigFetcher::fetchPublishedDocument,
     private val currentTimeMillis: () -> Long = System::currentTimeMillis,
 ) : ViewModel() {
     private val state = MutableStateFlow(MainUiState())
@@ -29,7 +30,6 @@ class MainViewModel(
     private var loadJob: Job? = null
 
     fun setConfigUrl(url: String) {
-        if (url == configUrl) return
         configUrl = url
         refresh()
     }
@@ -48,6 +48,7 @@ class MainViewModel(
                         isLoading = false,
                         lastUpdated = currentTimeMillis(),
                         documentRevision = if (changed) it.documentRevision + 1 else it.documentRevision,
+                        documentHash = RemoteConfigFetcher.sha256(bytes),
                     )
                 }
             } catch (cancelled: CancellationException) {

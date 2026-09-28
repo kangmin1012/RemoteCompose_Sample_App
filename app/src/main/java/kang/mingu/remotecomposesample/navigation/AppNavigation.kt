@@ -10,9 +10,9 @@ enum class SampleScreen(val route: String, val title: String, val file: String) 
     Home("home", "리모트 컴포즈", "config.rc"),
     Detail("detail", "상세 화면", "config_detail.rc");
 
-    // Raw GitHub avoids API authentication for this public sample repository.
+    // The manifest and its immutable document are published together by Pages.
     val url: String
-        get() = "https://raw.githubusercontent.com/kangmin1012/RemoteCompose_Sample_Web/master/$file"
+        get() = "https://kangmin1012.github.io/RemoteCompose_Sample_Web/${file.removeSuffix(".rc")}.manifest.json"
 }
 
 @Composable

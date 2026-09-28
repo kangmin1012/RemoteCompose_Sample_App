@@ -8,8 +8,13 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.test.captureToImage
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onRoot
+import androidx.compose.ui.test.onNodeWithContentDescription
+import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.assertIsDisplayed
 import androidx.test.platform.app.InstrumentationRegistry
 import kang.mingu.remotecomposesample.ui.components.RemoteDocumentView
+import kang.mingu.remotecomposesample.ui.screen.RemoteScreen
+import kotlinx.coroutines.CompletableDeferred
 import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
@@ -17,6 +22,39 @@ import org.junit.Test
 /** Fixtures are produced by the web repository's JVM converter. */
 class RemoteDocumentTest {
     @get:Rule val compose = createComposeRule()
+
+    @Test fun refreshButtonReplacesPreviouslyRenderedDocument() {
+        val assets = InstrumentationRegistry.getInstrumentation().context.assets
+        val before = assets.open("refresh-before.rc").use { it.readBytes() }
+        val after = assets.open("refresh-after.rc").use { it.readBytes() }
+        val pending = CompletableDeferred<ByteArray>()
+        var calls = 0
+        lateinit var model: MainViewModel
+        compose.runOnIdle {
+            model = MainViewModel(fetchDocument = {
+                if (calls++ == 0) before else pending.await()
+            }, currentTimeMillis = { 1000L })
+        }
+        compose.setContent {
+            RemoteScreen(configUrl = "https://example.test/config.rc", title = "새로고침 테스트", viewModel = model)
+        }
+        compose.waitForIdle()
+        val oldPixels = compose.onRoot().captureToImage().toPixelMap()
+        compose.onNodeWithContentDescription("새로고침").performClick()
+        compose.onNodeWithContentDescription("화면 새로고침 중").assertIsDisplayed()
+        compose.runOnIdle { pending.complete(after) }
+        compose.waitForIdle()
+        compose.onNodeWithContentDescription("화면 새로고침 중").assertDoesNotExist()
+        val newPixels = compose.onRoot().captureToImage().toPixelMap()
+        var changed = 0
+        for (x in 0 until newPixels.width step 4) {
+            for (y in newPixels.height / 3 until newPixels.height * 5 / 6 step 4) {
+                if (oldPixels[x, y] != newPixels[x, y]) changed++
+            }
+        }
+        assertTrue("Newly deployed button must change the rendered content", changed > 100)
+        assertTrue(model.uiState.value.documentBytes!!.contentEquals(after))
+    }
 
     @Test fun rendersEverySampleBinary() {
         val assets = InstrumentationRegistry.getInstrumentation().context.assets

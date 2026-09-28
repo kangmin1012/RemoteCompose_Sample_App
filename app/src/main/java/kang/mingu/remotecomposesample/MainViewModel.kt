@@ -15,10 +15,14 @@ data class MainUiState(
     val isLoading: Boolean = true,
     val errorMessage: String? = null,
     val lastUpdated: Long = 0L,
+    val documentRevision: Long = 0L,
 )
 
 /** One ViewModel per navigation entry, with explicit loading, success and error states. */
-class MainViewModel : ViewModel() {
+class MainViewModel(
+    private val fetchDocument: suspend (String) -> ByteArray = RemoteConfigFetcher::fetchDocument,
+    private val currentTimeMillis: () -> Long = System::currentTimeMillis,
+) : ViewModel() {
     private val state = MutableStateFlow(MainUiState())
     val uiState = state.asStateFlow()
     private var configUrl: String? = null
@@ -36,13 +40,14 @@ class MainViewModel : ViewModel() {
         loadJob = viewModelScope.launch {
             state.update { it.copy(isLoading = true, errorMessage = null) }
             try {
-                val bytes = RemoteConfigFetcher.fetchDocument(url)
+                val bytes = fetchDocument(url)
                 state.update {
                     val changed = !bytes.contentEquals(it.documentBytes)
                     it.copy(
                         documentBytes = if (changed) bytes else it.documentBytes,
                         isLoading = false,
-                        lastUpdated = if (changed) System.currentTimeMillis() else it.lastUpdated,
+                        lastUpdated = currentTimeMillis(),
+                        documentRevision = if (changed) it.documentRevision + 1 else it.documentRevision,
                     )
                 }
             } catch (cancelled: CancellationException) {

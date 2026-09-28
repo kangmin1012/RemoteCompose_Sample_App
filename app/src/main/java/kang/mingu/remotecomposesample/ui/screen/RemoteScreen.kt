@@ -39,7 +39,7 @@ fun RemoteScreen(
 
     val timeFormat = remember { SimpleDateFormat("HH:mm:ss", Locale.getDefault()) }
     val subtitle = if (state.lastUpdated > 0) {
-        "최근 업데이트: ${timeFormat.format(Date(state.lastUpdated))}"
+        "최근 확인: ${timeFormat.format(Date(state.lastUpdated))}"
     } else null
 
     Scaffold(
@@ -79,7 +79,7 @@ fun RemoteScreen(
                     RemoteDocumentView(
                         documentBytes = documentBytes,
                         modifier = Modifier.fillMaxSize(),
-                        contentKey = state.lastUpdated,
+                        contentKey = state.documentRevision,
                         onAction = { id, metadata ->
                             if (metadata?.startsWith("navigate:") == true) {
                                 onNavigate(metadata.removePrefix("navigate:"))
